@@ -35,12 +35,13 @@ function game_instance.hook()
 	return game_instance.value
 end
 
--- Some things need to be loaded before this works for some reason... so we just delay by a few seconds.
-ExecuteWithDelay(5000, function()
+-- Some things need to be loaded before this works.
+-- We hook a ClientRestart, which causes things to be loaded when going into a game.
+PreId, PostId = RegisterHook("/Script/Engine.PlayerController:ClientRestart", function(Context)
+	
 	-- dev mode sets up most things we want for free and seems to have no side effects.
 	-- disabling dev mode makes it work only with Items we have
 	-- and once we close the menu without an Item, can't regain it.
-	
 	game_instance.hook()["devMode?"] = true
 	
 	-- Pause Menu Construct Hook to fix a few things dev mode doesn't do for us.
@@ -121,4 +122,7 @@ ExecuteWithDelay(5000, function()
 			game_instance.hook():InstSaveGameToSlot()
 		end
 	end)
+
+	-- We only want to hook this once, afterwards everything is set up.
+	UnregisterHook("/Script/Engine.PlayerController:ClientRestart", PreId, PostId)
 end)
