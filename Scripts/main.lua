@@ -36,7 +36,7 @@ function game_instance.hook()
 end
 
 -- Some things need to be loaded before this works for some reason... so we just delay by a few seconds.
-ExecuteWithDelay(3500, function()
+ExecuteWithDelay(5000, function()
 	-- dev mode sets up most things we want for free and seems to have no side effects.
 	-- disabling dev mode makes it work only with Items we have
 	-- and once we close the menu without an Item, can't regain it.
